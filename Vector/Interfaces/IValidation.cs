@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace JSON_Vector.Interfaces
+namespace JSON.ORM.Vector.Interfaces
 {
     /// <summary>
     /// Provides a system to validate an incoming object from a consumer, but doing

@@ -6,11 +6,11 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using JSON_Vector.Attributes;
-using JSON_Vector.Extensions;
-using JSON_Vector.Interfaces;
+using JSON.ORM.Vector.Attributes;
+using JSON.ORM.Vector.Extensions;
+using JSON.ORM.Vector.Interfaces;
 
-namespace JSON_Vector
+namespace JSON.ORM.Vector
 {
 
     /// <summary>

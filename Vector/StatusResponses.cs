@@ -4,7 +4,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace JSON_Vector
+namespace JSON.ORM.Vector
 {
     public partial class GenericStatusResponse
     {

@@ -6,13 +6,13 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Text.Json;
-using JSON_Vector.Interfaces;
+using JSON.ORM.Vector.Interfaces;
 using SQLJSON.Extensions;
 
-namespace JSON_Vector
+namespace JSON.ORM.Vector
 {
     /// <summary>
-    /// This class compasses sending class models to a database.
+    /// This class encompasses sending class models to a database.
     /// The outgoing operations are performed by taking the data found in a list of model classes
     /// and sending up as sql server user table type values to sprocs. 
     /// </summary>

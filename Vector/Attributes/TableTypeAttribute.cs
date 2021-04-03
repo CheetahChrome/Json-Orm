@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JSON_Vector.Attributes
+namespace JSON.ORM.Vector.Attributes
 {
     /// <summary>
     /// Used for table type properties. They need to be in a specific order to be vectored to the database.

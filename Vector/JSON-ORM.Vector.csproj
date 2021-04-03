@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>JSON-ORM</PackageId>
+    <Authors>William Wegerson</Authors>
+    <Company>Omega Technical Consulting</Company>
+    <Product>JSON Vector ORM</Product>
+    <Description>An ORM based on Models created from JSON returned from SQL Server Sprocs.</Description>
+    <Copyright>2021</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>Buddybleu.png</PackageIcon>
+    <PackageIconUrl />
+    <AssemblyName>JSON-ORM</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SQLJSONReader" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Buddybleu.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
