@@ -228,6 +228,48 @@ namespace Json.Orm
             return string.IsNullOrEmpty(result) ? new List<T>() : JsonSerializer.Deserialize<List<T>>(result);
         }
 
+        /// <summary>
+        /// Used for debug purposes only, will execute a stored procedure and erturn the raw JSON for Model class building operations.
+        /// </summary>
+        /// <param name="storedProcedureName">Name of the stored procedure to execute</param>
+        /// <returns>JSON returned or string.Empty if error.</returns>
+        public string GetRawSQL(string storedProcedureName, params SqlParameter[] parameters)
+        {
+            string result = string.Empty;
+            using SqlConnection conn = new(ConnectionString);
+
+            conn.Open();
+
+            try
+            {
+                using var cmd = new SqlCommand(storedProcedureName, conn)
+                {
+                    CommandType = CommandType.StoredProcedure,
+                    CommandTimeout = 10
+                };
+
+                if (parameters != null)
+                    cmd.Parameters.AddRange(parameters);
+
+                var reader = cmd.ExecuteJsonReader();
+
+                result = reader.ReadAll();
+            }
+            catch (SqlException sql)
+            {
+                throw new ApplicationException(
+                    $"Database SQL Error Due To Sproc or sql script internal processing issue. Report to Development.{Environment.NewLine}{Environment.NewLine}{storedProcedureName} :  {sql.Message}{Environment.NewLine}{Environment.NewLine}",
+                    sql);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return result;
+
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
