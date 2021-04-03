@@ -14,7 +14,7 @@ Simply said, this package acts as an ORM, an *Object Relational Manager* between
 
 From the Microsoft [Worldwide Importers Database](https://docs.microsoft.com/en-us/sql/samples/wide-world-importers-what-is) example database let us pull down all the cities using [Linqpad](https://www.linqpad.net/):
 
-    var connectionStr = @"Data Source=.\Jabberwocky;Integrated Security=SSPI;Initial Catalog=WideWorldImporters";
+    var connectionStr = @"Data Source=.\Jabberwocky;Initial Catalog=WideWorldImporters";
 
     var jdb = new JsonOrmDatabase(connectionStr);
 
@@ -103,18 +103,18 @@ For our purposes we will take the raw sql and remove all cities except for the f
         public int StateProvinceID { get; set; }
     }
   
-## Step 5 Get The Data~
+## Step 5 Get The Data
   
 Believe it or not we are done, all we have to do is make the call to the database using an instance of the class `JsonOrmDatabase`. Here is the code in LinqPad:
 
 
-  var connectionStr = @"Data Source=.\Jabberwocky;Integrated Security=SSPI;Initial Catalog=WideWorldImporters";
+     var connectionStr = @"Data Source=.\Jabberwocky;Initial Catalog=WideWorldImporters";
 
-  var jdb = new JsonOrmDatabase(connectionStr);
+     var jdb = new JsonOrmDatabase(connectionStr);
 
-  var cities = jdb.Get<City>();
+     var cities = jdb.Get<City>();
 
-  cities.Dump();
+     cities.Dump();
   
  ---------
 
