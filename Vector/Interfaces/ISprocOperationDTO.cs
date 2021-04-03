@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace JSON.ORM.Vector.Interfaces
+namespace Json.Orm.Interfaces
 {
     public interface ISprocOperationDTO : ISprocDTO
     {

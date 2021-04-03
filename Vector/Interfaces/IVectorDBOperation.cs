@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JSON.ORM.Vector.Interfaces
+namespace Json.Orm.Interfaces
 {
     public class IVectorDBOperation
     {

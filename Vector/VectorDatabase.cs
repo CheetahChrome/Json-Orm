@@ -6,10 +6,10 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Text.Json;
-using JSON.ORM.Vector.Interfaces;
+using Json.Orm.Interfaces;
 using SQLJSON.Extensions;
 
-namespace JSON.ORM.Vector
+namespace Json.Orm
 {
     /// <summary>
     /// This class encompasses sending class models to a database.

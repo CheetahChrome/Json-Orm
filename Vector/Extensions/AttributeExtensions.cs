@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace JSON.ORM.Vector.Extensions
+namespace Json.Orm.Extensions
 {
     /// <summary>
     /// When custom attributes are created, this class helps 

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JSON.ORM.Vector.Interfaces;
+using Json.Orm.Interfaces;
 //using Microsoft.AspNetCore.Mvc;
 
-namespace JSON.ORM.Vector.Connection
+namespace Json.Orm.Connection
 {
     /// <summary>
     /// Handle db interaction to get and post data.

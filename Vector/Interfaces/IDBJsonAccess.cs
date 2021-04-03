@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JSON.ORM.Vector.Interfaces
+namespace Json.Orm.Interfaces
 {
     public interface IDBJsonAccess
     {

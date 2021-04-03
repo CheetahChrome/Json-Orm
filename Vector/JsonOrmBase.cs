@@ -6,11 +6,11 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using JSON.ORM.Vector.Attributes;
-using JSON.ORM.Vector.Extensions;
-using JSON.ORM.Vector.Interfaces;
+using Json.Orm.Attributes;
+using Json.Orm.Extensions;
+using Json.Orm.Interfaces;
 
-namespace JSON.ORM.Vector
+namespace Json.Orm
 {
 
     /// <summary>
@@ -40,7 +40,7 @@ namespace JSON.ORM.Vector
     ///   public string SourceName { get; set; }
     /// </code>
     /// </summary>
-    public class SprocOperationsBase : ISprocOperationDTO, IValidation
+    public class JsonOrmBase : ISprocOperationDTO, IValidation
     {
 
         #region Variables
@@ -86,7 +86,7 @@ namespace JSON.ORM.Vector
         public int Code { get; set; }
         #endregion
 
-        public SprocOperationsBase()
+        public JsonOrmBase()
         {
             //IsDebug = Startup.ErrorMessageHandling.IsDebug;
             //SecureErrorMessage = Startup.ErrorMessageHandling.ValidationError;

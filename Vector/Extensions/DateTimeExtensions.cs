@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JSON.ORM.Vector.Extensions
+namespace Json.Orm.Extensions
 {
     public static class DateTimeExtensions
     {

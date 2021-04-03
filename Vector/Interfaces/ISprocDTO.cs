@@ -1,4 +1,4 @@
-﻿namespace JSON.ORM.Vector.Interfaces
+﻿namespace Json.Orm.Interfaces
 {
     public interface ISprocDTO
     {
