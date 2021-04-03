@@ -32,7 +32,7 @@ How do we achieve that? Follow these steps detailed below.
 
 We want to return data from `City` table in JSON form. For that we will create a stored procedure named `GetCities`. Let us return just 25 cities from the table in our example:
 
-    ALTER PROCEDURE GetCities
+    CREATE PROCEDURE GetCities
     AS
     
     select Top 25 CityID, CityName, StateProvinceID
@@ -68,16 +68,11 @@ For our purposes we will take the raw sql and remove all cities except for the f
   
  Using an external tool or by hand we create a model which represents the json which will be returned from our Stored Procedure. Our model looks like this:
 
-    public class City : JsonOrmModel
+    public class City
     {
-        public override string GetStoredProcedureName => "[get].[Cities]";
-    
         public int CityID { get; set; }
-    
         public string CityName { get; set; }
-    
-        public int StateProvinceID { get; set; }
-    
+        public int StateProvinceID { get; set; }  
     }
 
   #### Step 3A
