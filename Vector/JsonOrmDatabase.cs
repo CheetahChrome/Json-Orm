@@ -20,32 +20,32 @@ namespace Json.Orm
     /// found in the repository github.com/CheetahChrome/JSON-Framework. The
     /// code is the MIT license and I am the original author (William Wegerson) of the code having
     /// worked on it before doing a project for Huron</remarks>
-    public class VectorDatabase : IDisposable
+    public class JsonOrmDatabase : IDisposable
     {
         private bool disposedValue;
 
         public string ConnectionString { get; set; }
 
-        public static VectorDatabase Create()
-            => new VectorDatabase();
+        public static JsonOrmDatabase Create()
+            => new JsonOrmDatabase();
 
-        public static VectorDatabase Create(string connectionString)
-            => new VectorDatabase(connectionString);
+        public static JsonOrmDatabase Create(string connectionString)
+            => new JsonOrmDatabase(connectionString);
 
         private SqlConnection Connection { get; set; }
 
-        public VectorDatabase() { }
+        public JsonOrmDatabase() { }
 
         /// <summary>
         /// Create a instance with the connection string.
         /// </summary>
         /// <param name="connectionString"></param>
-        public VectorDatabase(string connectionString)
+        public JsonOrmDatabase(string connectionString)
         {
             ConnectionString = connectionString;
         }
 
-        public void SendToDatabase<T>(T itemTOSend, params SqlParameter[] parameters) where T : class, ISprocOperationDTO, new()
+        public void Post<T>(T itemTOSend, params SqlParameter[] parameters) where T : class, ISprocOperationDTO, new()
         {
             var sproc = itemTOSend.PutStoredProcedureName;
 
@@ -93,7 +93,7 @@ namespace Json.Orm
         /// <remarks>This method is best for Table Type (single variable, multiple items in the `table` of the type.) in sproc</remarks>
         /// <typeparam name="T"></typeparam>
         /// <param name="listToSend"></param>
-        public void SendToDatabase<T>(IList<T> listToSend) where T : class, ISprocOperationDTO, new()
+        public void Post<T>(IList<T> listToSend) where T : class, ISprocOperationDTO, new()
         {
             var list = listToSend ?? throw new ApplicationException("Need a valid list");
             if (!list.Any())
@@ -138,7 +138,7 @@ namespace Json.Orm
         /// <typeparam name="T">Type of object being sent</typeparam>
         /// <param name="listToSend">The list of instances to send</param>
         /// <param name="parameters">Optional sql parameters if `rolling your own` parameters. See remarks above.</param>
-        public void SendToDatabase<T>(IList<T> listToSend, params SqlParameter[] parameters) where T : class, ISprocOperationDTO, new()
+        public void Post<T>(IList<T> listToSend, params SqlParameter[] parameters) where T : class, ISprocOperationDTO, new()
         {
             var list = listToSend ?? throw new ApplicationException("Need a valid list");
             if (!list.Any())
@@ -186,7 +186,7 @@ namespace Json.Orm
 
         }
 
-        public List<T> AcquireJson<T>(params SqlParameter[] parameters) where T : ISprocOperationDTO
+        public List<T> Get<T>(params SqlParameter[] parameters) where T : ISprocOperationDTO
         {
             var result = string.Empty;
             var instance = Activator.CreateInstance<T>();

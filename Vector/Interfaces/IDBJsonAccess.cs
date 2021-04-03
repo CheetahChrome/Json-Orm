@@ -8,9 +8,9 @@ namespace Json.Orm.Interfaces
 {
     public interface IDBJsonAccess
     {
-        Task<string> AcquireJson(string sproc, params SqlParameter[] parameters);
+        Task<string> Get(string sproc, params SqlParameter[] parameters);
 
-        Task<string> AcquireJson<T>() where T : IVectorDBOperation;
+        Task<string> Get<T>() where T : IVectorDBOperation;
 
         string CallSProcReturnJSON(string sprocName, IEnumerable<SqlParameter> parameters);
 

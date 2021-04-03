@@ -40,7 +40,7 @@ namespace Json.Orm
     ///   public string SourceName { get; set; }
     /// </code>
     /// </summary>
-    public class JsonOrmBase : ISprocOperationDTO, IValidation
+    public class JsonOrmModel : ISprocOperationDTO, IValidation
     {
 
         #region Variables
@@ -86,7 +86,7 @@ namespace Json.Orm
         public int Code { get; set; }
         #endregion
 
-        public JsonOrmBase()
+        public JsonOrmModel()
         {
             //IsDebug = Startup.ErrorMessageHandling.IsDebug;
             //SecureErrorMessage = Startup.ErrorMessageHandling.ValidationError;
