@@ -1,36 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>JSON-ORM</PackageId>
     <Authors>William Wegerson</Authors>
     <Company>Omega Technical Consulting</Company>
     <Product>JSON ORM</Product>
     <Description>An ORM based on Models created from JSON returned from SQL Server Sprocs.</Description>
-    <Copyright>2021</Copyright>
+    <Copyright>2022</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>Buddybleu.png</PackageIcon>
     <PackageIconUrl />
     <AssemblyName>JSON-ORM</AssemblyName>
-    <PackageReleaseNotes>V5.0 of the Json-Orm for .Net 5.</PackageReleaseNotes>
-    <AssemblyVersion>5.0.1.0</AssemblyVersion>
-    <FileVersion>5.0.1.0</FileVersion>
-    <Version>5.0.1</Version>
+    <PackageReleaseNotes>6.0 - Put in Json Ignores for properties erroneously being deserialized by the consumer.</PackageReleaseNotes>
+    <AssemblyVersion>6.0.0.0</AssemblyVersion>
+    <FileVersion>6.0.0.0</FileVersion>
+    <Version>6.1.0</Version>
     <RepositoryUrl>https://github.com/CheetahChrome/Json-Orm</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <PackageTags>Json, ORM, SQL Server, Model, Database Manager</PackageTags>
+    <PackageTags>Json, ORM, SQL Server, Model, Database Manager, ADO.Net</PackageTags>
+    <PackageProjectUrl>https://github.com/CheetahChrome/Json-Orm</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SQLJSONReader" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Include="..\..\SQLJSONReader\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="Buddybleu.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SQLJSONReader" Version="6.1.0" />
   </ItemGroup>
 
 </Project>

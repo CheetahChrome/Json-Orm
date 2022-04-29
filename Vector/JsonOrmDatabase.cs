@@ -24,17 +24,17 @@ namespace Json.Orm
     {
         private bool disposedValue;
 
-        public string ConnectionString { get; set; }
+        public string? ConnectionString { get; set; }
 
         public static JsonOrmDatabase Create()
-            => new JsonOrmDatabase();
+            => new();
 
         public static JsonOrmDatabase Create(string connectionString)
-            => new JsonOrmDatabase(connectionString);
+            => new(connectionString);
 
-        private SqlConnection Connection { get; set; }
+        private SqlConnection? Connection { get; set; }
 
-        public JsonOrmDatabase() { }
+        public JsonOrmDatabase() => ConnectionString = "";
 
         /// <summary>
         /// Create a instance with the connection string.
@@ -119,12 +119,12 @@ namespace Json.Orm
                     if (Connection != null)
                         cmd.Parameters.Add(parameter);
 
-                    var reader = cmd.ExecuteNonQuery();
+                    _ = cmd.ExecuteNonQuery();
 
                     //                    result = await reader.ReadAllAsync();
                 }
 
-                Connection.Close();
+                Connection?.Close();
             }
 
             Connection = null;
@@ -193,7 +193,7 @@ namespace Json.Orm
 
             if (string.IsNullOrEmpty(instance.GetStoredProcedureName)) throw new ApplicationException("Development error, Type T does not have a `GetStoredProcedureName` override specifying the sproc to use");
 
-            using (SqlConnection conn = new SqlConnection(ConnectionString))
+            using (SqlConnection conn = new(ConnectionString))
             {
                 conn.Open();
                 try
@@ -225,11 +225,15 @@ namespace Json.Orm
             }
 
             // Return the deserialized models, or an empty list. 
-            return string.IsNullOrEmpty(result) ? new List<T>() : JsonSerializer.Deserialize<List<T>>(result);
+            return string.IsNullOrEmpty(result) ? new List<T>() 
+                                                : JsonSerializer.Deserialize<List<T>>(result, new JsonSerializerOptions()
+                                                { PropertyNameCaseInsensitive = true}) 
+
+                                                ?? new List<T>();
         }
 
         /// <summary>
-        /// Used for debug purposes only, will execute a stored procedure and erturn the raw JSON for Model class building operations.
+        /// Used for debug purposes only, will execute a stored procedure and return the raw JSON for Model class building operations.
         /// </summary>
         /// <param name="storedProcedureName">Name of the stored procedure to execute</param>
         /// <returns>JSON returned or string.Empty if error.</returns>
@@ -270,6 +274,41 @@ namespace Json.Orm
 
         }
 
+        public string GetRawSQLByDynamicSql(string sql, params SqlParameter[] parameters)
+        {
+            string result = string.Empty;
+            using SqlConnection conn = new(ConnectionString);
+
+            conn.Open();
+
+            try
+            {
+                using var cmd = new SqlCommand(sql, conn)
+                {
+                    CommandType = CommandType.Text,
+                    CommandTimeout = 10
+                };
+
+                if (parameters != null)
+                    cmd.Parameters.AddRange(parameters);
+
+                var reader = cmd.ExecuteJsonReader();
+
+                result = reader.ReadAll();
+            }
+            catch (SqlException sqle)
+            {
+                throw new ApplicationException(
+                    $"Database SQL Error Due To Sproc or sql script internal processing issue. Report to Development.{Environment.NewLine}{Environment.NewLine}{sql} :  {sqle.Message}{Environment.NewLine}{Environment.NewLine}",
+                    sqle);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return result;
+        }
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)

@@ -10,7 +10,7 @@ namespace Json.Orm.Interfaces
         //string StoredProcedureName { get; }
 
         // If the derived is a table type, then provide its name here. 
-        string PutTableTypeVariableName { get; }
+        string? PutTableTypeVariableName { get; }
 
         List<Tuple<string, string>> ExtractStrings();
 

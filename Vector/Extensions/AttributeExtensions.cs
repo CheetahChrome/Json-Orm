@@ -17,17 +17,20 @@ namespace Json.Orm.Extensions
         ///          generic class if it exists.</summary>    
         /// <param name="attributeItem">The target item.</param>    
         /// <returns>The decorated attribute or null</returns>    
-        public static T ExtractAttribute<TargetType, T>(this TargetType attributeItem) where T : System.Attribute
+        public static T? ExtractAttribute<TargetType, T>(this TargetType attributeItem) where T : System.Attribute
         {
-            T retVal = null;
+            T? retVal = null;
 
             try
             {
-                retVal = attributeItem?.GetType()
-                        .GetProperty(attributeItem.ToString())
-                        .ExtractAttribute<T>()
-                    ;
+                if (attributeItem != null)
+                {
+                    var prop = attributeItem?.GetType()
+                                             .GetProperty(attributeItem?.ToString() ?? "");
 
+                    if (prop != null)
+                        retVal = prop.ExtractAttribute<T>();
+                 }
             }
             catch (NullReferenceException)
             {
@@ -38,15 +41,15 @@ namespace Json.Orm.Extensions
         }
 
 
-        public static T ExtractAttribute<T>(this PropertyInfo propInfo) where T : System.Attribute
+        public static T? ExtractAttribute<T>(this PropertyInfo propInfo) where T : System.Attribute
         {
-            T retVal = null;
+            T? retVal = null;
 
             try
             {
                 retVal = propInfo?.GetCustomAttributes(typeof(T), false)
-                    .OfType<T>()
-                    .FirstOrDefault();
+                                  .OfType<T>()
+                                  .FirstOrDefault();
 
             }
             catch (NullReferenceException)

@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
 using Json.Orm.Attributes;
 using Json.Orm.Extensions;
 using Json.Orm.Interfaces;
@@ -36,7 +37,7 @@ namespace Json.Orm
     /// Mark any non serialization needed property with
     /// <code>
     ///   [NotMapped]  // Ignored for database mapping (to db)
-    ///   [JsonIgnore] // Ignred for any deserialization/serialization code.
+    ///   [JsonIgnore] // Ignored for any deserialization/serialization code.
     ///   public string SourceName { get; set; }
     /// </code>
     /// </summary>
@@ -44,45 +45,53 @@ namespace Json.Orm
     {
 
         #region Variables
-        private List<string> _ValidationErrors;
-        private Type NotMappedType = typeof(NotMappedAttribute);
+        private List<string>? _ValidationErrors;
+        private readonly Type NotMappedType = typeof(NotMappedAttribute);
 
         // The following two properties are to be overriden by the derived class.
         [NotMapped]
-        public virtual string GetStoredProcedureName => string.Empty;
+        [JsonIgnore]
+        public virtual string? GetStoredProcedureName => string.Empty;
 
         [NotMapped]
-        public virtual string PutStoredProcedureName => string.Empty;
+        [JsonIgnore]
+        public virtual string? PutStoredProcedureName => string.Empty;
 
         [NotMapped]
-        public bool UseAlternateSproc { get; set; }
+        [JsonIgnore]
+        public bool? UseAlternateSproc { get; set; }
 
         /// <summary>
         /// This is an optional derived property which when used signifies that the derived is a tabletype and the
         /// name of that type.
         /// </summary>
         [NotMapped]
+        [JsonIgnore]
         public virtual string PutTableTypeVariableName => "TableTypeNameInvalid";
 
         /// <summary>
         /// Are we under debug mode? If so provide full error messages.
         /// </summary>
         [NotMapped]
+        [JsonIgnore]
         public bool IsDebug { get; set; }
 
         /// <summary>
         /// For production environments, do not send detailed error message, only a standard one.
         /// </summary>
         [NotMapped]
-        public string SecureErrorMessage { get; set; }
+        [JsonIgnore]
+        public string? SecureErrorMessage { get; set; }
 
         #endregion
 
         #region Properties
         [NotMapped]
-        public string SourceName { get; set; }
+        [JsonIgnore]
+        public string? SourceName { get; set; }
 
         [NotMapped]
+        [JsonIgnore]
         public int Code { get; set; }
         #endregion
 
@@ -95,7 +104,9 @@ namespace Json.Orm
         #region Validation
 
         [NotMapped]
-        public List<string> ValidationErrors { get => _ValidationErrors; set { } }
+        [JsonIgnore]
+        public List<string> ValidationErrors { get => _ValidationErrors ?? new List<string>();
+            set { } }
 
         /// <summary>
         /// Returns true if there are no validation issues.
@@ -118,7 +129,7 @@ namespace Json.Orm
                 _ValidationErrors.Add($"The field ({where}) is ({what}); validation reports error: {error}");
             else
             {
-                if (!_ValidationErrors.Any())
+                if ((!_ValidationErrors.Any()) && (!string.IsNullOrEmpty(SecureErrorMessage)))
                     _ValidationErrors.Add(SecureErrorMessage);
             }
         }
@@ -158,10 +169,11 @@ namespace Json.Orm
 
         #region StoredProcedure
 
-        private List<PropertyInfo> _props;
+        private List<PropertyInfo>? _props;
 
         [NotMapped]
-        public virtual bool UsesTableTypes => false;
+        [JsonIgnore]
+        public virtual bool? UsesTableTypes => false;
 
         [NotMapped]
         protected List<PropertyInfo> GetProperties
@@ -263,7 +275,7 @@ namespace Json.Orm
                                     Value = prop.GetValue(this)?.ToString()
                                 })
                                 .Where(prop => string.IsNullOrWhiteSpace(prop.Value) == false)
-                                .Select(prop => new Tuple<string, string>(prop.Name, prop.Value.ToString()))
+                                .Select(prop => new Tuple<string, string>(prop.Name, prop.Value?.ToString() ?? string.Empty))
                                 .ToList();
         }
 
