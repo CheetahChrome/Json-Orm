@@ -14,9 +14,9 @@
     <PackageIconUrl />
     <AssemblyName>JSON-ORM</AssemblyName>
     <PackageReleaseNotes>6.0 - Put in Json Ignores for properties erroneously being deserialized by the consumer.</PackageReleaseNotes>
-    <AssemblyVersion>6.0.0.0</AssemblyVersion>
-    <FileVersion>6.0.0.0</FileVersion>
-    <Version>6.1.0</Version>
+    <AssemblyVersion>6.2.0.0</AssemblyVersion>
+    <FileVersion>6.2.0.0</FileVersion>
+    <Version>6.2.0</Version>
     <RepositoryUrl>https://github.com/CheetahChrome/Json-Orm</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageTags>Json, ORM, SQL Server, Model, Database Manager, ADO.Net</PackageTags>

@@ -301,7 +301,9 @@ namespace Json.Orm
 
         public virtual IEnumerable<SqlParameter> ExtractParameters()
         {
+#pragma warning disable CS8603 // Possible null reference return.
             yield return null;
+#pragma warning restore CS8603 // Possible null reference return.
         }
 
         // This is the final derivation of ExtractParameters which return a sql parameter object
