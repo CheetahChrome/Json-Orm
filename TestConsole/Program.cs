@@ -4,18 +4,28 @@ using TestConsole;
 
 Console.WriteLine("Hello, World!");
 
-var connectionStr = @"Data Source=.;Integrated Security=SSPI;Initial Catalog=Rasa;app=LINQPad";
+var connectionStr = @"Data Source=.;Integrated Security=SSPI;Initial Catalog=Rasa";
 
-var jdb = new JsonOrmDatabase(connectionStr);
+//var jdb = new JsonOrmDatabase(connectionStr);
 
-string raw = jdb.GetRawSQL("[get].[Project]");
+//string raw = jdb.GetRawSQL("[get].[Project]");
 
-Console.WriteLine(raw);
-//raw.Dump();
+//Console.WriteLine(raw);
+////raw.Dump();
 
-var pjc = jdb.Get<ProjectDTO>();
+//var pjc = jdb.Get<ProjectDTO>();
 
-var one = pjc[0];
+//var one = pjc[0];
 
-Console.WriteLine(one.Tpc);
+//Console.WriteLine(one.Tpc);
 //cities.Dump();
+
+
+var result = await JsonOrmDatabase.Create(connectionStr)
+                                  .SetStoredProcedure("[get].[PicklistMenus]")
+                                  .GetJsonAsync<List<DetailCategory>>();
+
+
+
+Console.WriteLine(result[0].Name);
+

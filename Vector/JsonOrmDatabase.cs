@@ -21,7 +21,7 @@ namespace Json.Orm
     /// found in the repository github.com/CheetahChrome/JSON-Framework. The
     /// code is the MIT license and I am the original author (William Wegerson) of the code having
     /// worked on it before doing a project for Huron</remarks>
-    public class JsonOrmDatabase : IDisposable
+    public partial class JsonOrmDatabase : IDisposable
     {
         private bool disposedValue;
 
@@ -35,7 +35,7 @@ namespace Json.Orm
 
         private SqlConnection? Connection { get; set; }
 
-        public JsonOrmDatabase() => ConnectionString = "";
+        public JsonOrmDatabase() => ConnectionString = "";  
 
         /// <summary>
         /// Create a instance with the connection string.
