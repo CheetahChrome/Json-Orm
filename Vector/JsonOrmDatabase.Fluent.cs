@@ -36,6 +36,19 @@ namespace Json.Orm
         }
 
         #region Parameters
+        public JsonOrmDatabase AddParameterBoolean(string parameterName, bool value)
+        {
+            SqlParameters.Add(new SqlParameter()
+            {
+                ParameterName = parameterName,
+                IsNullable = false,
+                SqlDbType = System.Data.SqlDbType.Bit,
+                Value = value ? 1 : 0,
+            });
+
+            return this;
+        }
+
         public JsonOrmDatabase AddParameterInt(string parameterName, int value)
         {
             SqlParameters.Add(new SqlParameter()
