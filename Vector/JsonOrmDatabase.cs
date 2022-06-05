@@ -24,6 +24,7 @@ namespace Json.Orm
     public partial class JsonOrmDatabase : IDisposable
     {
         private bool disposedValue;
+        private SqlConnection? _Connection;
 
         public string? ConnectionString { get; set; }
 
@@ -33,7 +34,11 @@ namespace Json.Orm
         public static JsonOrmDatabase Create(string connectionString)
             => new(connectionString);
 
-        private SqlConnection? Connection { get; set; }
+        public SqlConnection? Connection
+        {
+            get => _Connection ??= new SqlConnection(ConnectionString);
+            set => _Connection = value;
+        }
 
         public JsonOrmDatabase() => ConnectionString = "";  
 
@@ -481,7 +486,7 @@ namespace Json.Orm
                     CommandTimeout = 10
                 };
 
-                if (parameters != null)
+                if ((parameters != null) && (parameters.Any()))
                     cmd.Parameters.AddRange(parameters);
 
                 var reader = cmd.ExecuteJsonReader();
