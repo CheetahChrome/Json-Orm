@@ -50,7 +50,7 @@ We will execute the stored procedure and look at the JSON result. One can do tha
     var connectionStr = @"Data Source=.\Jabberwocky;Integrated Security=SSPI;Initial Catalog=WideWorldImporters";
 
     var json = await JsonOrmDatabase.Create(connectionStr)
-                                    .SetStoredProcedure("[get].[PicklistMenus]")
+                                    .SetStoredProcedure("[get].[Cities]")
                                     .Execute();
 
     Console.Writeline(json);
