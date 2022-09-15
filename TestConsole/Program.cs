@@ -4,8 +4,6 @@ using Json.Orm.Extensions;
 using System.Data.SqlClient;
 using TestConsole;
 
-
-
 var connectionStr = @"Data Source=.;Integrated Security=SSPI;Initial Catalog=Rasa";
 
 var jdb = new JsonOrmDatabase(connectionStr);
@@ -27,13 +25,17 @@ var jdb = new JsonOrmDatabase(connectionStr);
 //                                  .SetStoredProcedure("[get].[PicklistMenus]")
 //                                  .GetJsonAsync<List<DetailCategory>>();
 
-
-
 //Console.WriteLine(result[0].Name);
 
+//  Fluent raw string json
+var result = await JsonOrmDatabase.Create(connectionStr)
+                                  .SetStoredProcedure("[get].[PicklistMenus]")
+                                  .Execute();
+
+Console.WriteLine(result);
+
+
 // Raw SQL call
-
-
 
 //var names = new SqlConnection(connectionStr).GetTableNames("info")
 //                                            .Select(nm => $"select top(1) * from info.{nm} for json auto;")
@@ -45,8 +47,11 @@ var jdb = new JsonOrmDatabase(connectionStr);
 
 //Console.WriteLine(json);
 
+
+/* Get Table Names
+
 var TableJsons = jdb.GetJsonForTables("info");
 
 Console.WriteLine(TableJsons.Any() ? "True" : "False");
 
-
+*/

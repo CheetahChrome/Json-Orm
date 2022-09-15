@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Json.Orm.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -191,6 +192,12 @@ namespace Json.Orm
 
             return this;
         }
+
+        public JsonOrmDatabase AddParameterTableType<T>(string parameterName, T itemToSend) where T : class, ISprocOperationDTO, new()
+        {
+            SqlParameters.AddRange(itemToSend.Ex
+        }
+
         #endregion
 
         public JsonOrmDatabase SetStoredProcedure(string storedProcedureName)
@@ -199,15 +206,33 @@ namespace Json.Orm
             return this;
         }
 
+        /// <summary>
+        /// Execute allows one to run the operation and receive a raw version of json return in a string.
+        /// </summary>
+        /// <returns>String result of the operation.</returns>
+        public async Task<string> Execute()
+        {
+#pragma warning disable CS8604 // Possible null reference argument.
+            return await GetRawSQLAsync(StoredProcedure, HasParameters ? SqlParameters.ToArray() : null);
+#pragma warning restore CS8604 // Possible null reference argument.
+
+        }
+
         public async Task<T?> GetJsonAsync<T>(JsonSerializerOptions? options = null)
         {
 #pragma warning disable CS8604 // Possible null reference argument.
-            Json = await GetRawSQLAsync(StoredProcedure, HasParameters ? SqlParameters.ToArray() : null);
+            Json = await Execute();
 #pragma warning restore CS8604 // Possible null reference argument.
 
             return DeserializeJsonTo<T>(options);
         }
 
+        /// <summary>
+        /// Generic process the result and return an object(s) of the desired type.
+        /// </summary>
+        /// <typeparam name="T">Type to use</typeparam>
+        /// <param name="options">JSON serializer options to adhere to</param>
+        /// <returns></returns>
         public T? DeserializeJsonTo<T>(JsonSerializerOptions? options = null) 
             => JsonSerializer.Deserialize<T>(Json, options);
 
