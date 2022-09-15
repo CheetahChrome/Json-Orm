@@ -41,18 +41,24 @@ We want to return data from `City` table in JSON form. For that we will create a
     
     RETURN @@ROWCOUNT -- ORM does not use this value FYI
     
-### Step 2 Execute Stored Procedure
+### Step 2 Execute Stored Procedure and Return Raw JSON
     
-We will execute the stored procedure and look at the JSON result. One can do that by using a tool such as  SSMS or AzureData Studio; most likely the tool you used to create the sproc.
+We will execute the stored procedure and look at the JSON result. One can do that by using a tool such as SSMS or AzureData Studio; most likely the tool you used to create the sproc.
 *Note* -> We can also use the Json-Orm method `GetRawSQL` that returns the *raw* json as a string. This method is only used for debug/building purposes and is not directly tied to the standard Json-Orm processing. Here is our Linqpad Example:
 
+    
     var connectionStr = @"Data Source=.\Jabberwocky;Integrated Security=SSPI;Initial Catalog=WideWorldImporters";
+
+    var json = await JsonOrmDatabase.Create(connectionStr)
+                                    .SetStoredProcedure("[get].[PicklistMenus]")
+                                    .Execute();
+
+    Console.Writeline(json);
     
-    var jdb = new JsonOrmDatabase(connectionStr);
     
-    var raw = jdb.GetRawSQL("[get].[Cities]");
-    
-    raw.Dump();
+--------    
+
+## Moving Json to a Model (Deserialization)
 
 For our purposes we will take the raw sql and remove all cities except for the first one to be used for step 3.
 
@@ -84,6 +90,9 @@ For our purposes we will take the raw sql and remove all cities except for the f
   There are two steps to achieve downloaded data from the server and marry it to a list of models. 
   
   #### Step 4A Inheirit Base Class `JsonOrmModel`
+  
+  See `City` below for that step.
+  
   #### Step 4B Override `GetStoredProcedureName` Method
   
   The magic happens when the Json-Orm reflects on your model and uses that to call the Stored Procedures when `Get`-ing and `Push`-ing data. We want to call the *get* operation 
