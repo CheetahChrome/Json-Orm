@@ -44,7 +44,6 @@ We want to return data from `City` table in JSON form. For that we will create a
 ### Step 2 Execute Stored Procedure and Return Raw JSON
     
 We will execute the stored procedure and look at the JSON result. One can do that by using a tool such as SSMS or AzureData Studio; most likely the tool you used to create the sproc.
-*Note* -> We can also use the Json-Orm method `GetRawSQL` that returns the *raw* json as a string. This method is only used for debug/building purposes and is not directly tied to the standard Json-Orm processing. Here is our Linqpad Example:
 
     
     var connectionStr = @"Data Source=.\Jabberwocky;Integrated Security=SSPI;Initial Catalog=WideWorldImporters";
@@ -55,7 +54,8 @@ We will execute the stored procedure and look at the JSON result. One can do tha
 
     Console.Writeline(json);
     
-    
+*Note* -> `Execute` returns the raw json. If this is enough for, say a restful web service you are building, one can use this method and be done, not needing the ORM in the following steps. 
+
 --------    
 
 ## Moving Json to a Model (Deserialization)
